@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-[#FFFFFF] dark:bg-[#09090A] text-zinc-100;
+  font-family: "Inter", sans-serif;
+}
+.charts-columns {
+  display: flex;
+  flex-direction: row;
+}
+@media (max-width: 1160px) {
+  .charts-columns {
+    flex-direction: column;
+  }
+}
+.apexcharts-menu {
+  @apply bg-[#FFFFFF] dark:bg-[#09090A] text-zinc-100;
+}
+.apexcharts-svg {
+  @apply bg-[#FFFFFF] dark:bg-[#09090A] text-zinc-100;
+}
+.apexcharts-menu-item {
+  @apply dark:text-zinc-100 text-zinc-800 dark:hover:text-purple-800;
+}
+.apexcharts-tooltip,
+.apexcharts-tooltip-title {
+  @apply text-zinc-900;
+}
