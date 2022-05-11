@@ -48,7 +48,10 @@ export function Login() {
           DrinksAtHome
         </h1>
         <p className="text-zinc-400 mb-6">Enter your details to access.</p>
-        <form className="w-[30%] flex flex-col gap-4" onSubmit={handleSubmit}>
+        <form
+          className="md:w-[30%] w-[90%] flex flex-col gap-4"
+          onSubmit={handleSubmit}
+        >
           <input
             type="email"
             className="
