@@ -11,6 +11,7 @@ import CountUp from "react-countup";
 import { Header } from "../Header";
 
 import { FeedbackType, feedbackTypes } from "../WidgetForm";
+import { ModalShowPhoto } from "../ModalShowPhoto";
 
 interface IFeedbackTypeResponse {
   id: string;
@@ -18,11 +19,21 @@ interface IFeedbackTypeResponse {
   comment: string;
   screenshot?: string;
 }
-
+interface InformationImageForModalProps {
+  url: string;
+  alt: string;
+}
 export function Dashboard() {
   const navigate = useNavigate();
   const [options, setOptions] = useState({});
   const [series, setSeries] = useState([]);
+
+  const [isOpenModalImage, setIsOpenModalImage] = useState(false);
+  const [informationImageForModal, setInformationImageForModal] =
+    useState<InformationImageForModalProps>(
+      {} as InformationImageForModalProps
+    );
+
   const [feedbackSize, setFeedbackSize] = useState(0);
   const [feedbacksList, setFeedbacksList] = useState<IFeedbackTypeResponse[]>(
     []
@@ -46,6 +57,14 @@ export function Dashboard() {
     return amountFeedbacks.reduce((sum, i) => {
       return sum + i;
     });
+  }
+
+  function openImageModal(altImage, urlImage) {
+    setInformationImageForModal({
+      alt: altImage,
+      url: urlImage,
+    });
+    setIsOpenModalImage(true);
   }
 
   useEffect(() => {
@@ -94,6 +113,12 @@ export function Dashboard() {
 
   return (
     <>
+      <ModalShowPhoto
+        setIsOpenModal={setIsOpenModalImage}
+        altImageURL={informationImageForModal.alt}
+        imageURL={informationImageForModal.url}
+        isOpenModal={isOpenModalImage}
+      />
       <Header dashboard insertUser />
 
       <div className="flex items-center text-center flex-col mt-10">
@@ -113,7 +138,7 @@ export function Dashboard() {
             series={series}
           />
           <div
-            className="rounded-lg bg-purple-600 p-10 text-4xl"
+            className="rounded-lg bg-purple-600 p-10 text-4xl hover:bg-purple-800"
             title="Total de feedbacks"
           >
             <CountUp end={feedbackSize} />
@@ -164,13 +189,22 @@ export function Dashboard() {
 
                     <td className="px-6 py-4">{feedbackItem.comment}</td>
 
-                    <td className="px-6 py-4 text-center flex justify-center items-center">
+                    <td
+                      className="px-6 py-4 text-center flex justify-center items-center cursor-pointer"
+                      title="Clique para visualizar a imagem"
+                    >
                       {feedbackItem.screenshot ? (
                         <img
                           alt={feedbackItem.comment}
                           src={feedbackItem.screenshot}
                           width={52}
                           height={52}
+                          onClick={() =>
+                            openImageModal(
+                              feedbackItem.comment,
+                              feedbackItem.screenshot
+                            )
+                          }
                         />
                       ) : (
                         <>Nenhuma imagem cadastrada para esse feedback.</>
